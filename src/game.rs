@@ -2,6 +2,12 @@
 // This file contains the core data types used to model the game state.
 // Everything is documented thoroughly so beginners can easily follow along.
 
+// We import a few utilities from the `rand` crate to shuffle the deck.
+use rand::seq::SliceRandom;
+use rand::thread_rng;
+
+use crate::ecs::Entity;
+
 /// Represents the four suits found in a standard deck of cards.
 /// Using an enum ensures each suit is a distinct value at compile time.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -77,5 +83,34 @@ impl Deck {
         }
         Self { cards }
     }
+
+    /// Shuffle the deck using a random number generator.
+    ///
+    /// We rely on the `rand` crate so that the shuffle works the same on
+    /// native and WASM targets.
+    pub fn shuffle(&mut self) {
+        let mut rng = thread_rng();
+        self.cards.shuffle(&mut rng);
+    }
 }
+
+/// Represents the different piles a card can belong to in Solitaire.
+///
+/// We keep this structure very small so it is easy to store as a component in
+/// the ECS `World`.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Pile {
+    /// The facedown stock pile that players draw cards from.
+    Stock,
+    /// The faceup waste pile where drawn cards go.
+    Waste,
+    /// One of the four foundation piles where cards are stacked by suit.
+    Foundation(u8),
+    /// One of the seven tableau piles used during play.
+    Tableau(u8),
+}
+
+/// Simple component used to mark whether a card is face up on the table.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct FaceUp(pub bool);
 
