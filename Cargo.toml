@@ -1,0 +1,6 @@
+[package]
+name = "eda3-ecs_wasm_game_soli_vanilla_codex_20250731"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
