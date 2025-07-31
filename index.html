@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>Solitaire Game</title>
+    <link data-trunk rel="rust" data-wasm-opt="z" />
+</head>
+<body>
+    <h1>Solitaire Game</h1>
+    <script type="module">
+        import init, { SolitaireGame } from "./eda3_ecs_wasm_game_soli_vanilla_codex_20250731.js";
+        async function main() {
+            await init();
+            const game = new SolitaireGame();
+            game.setup_board();
+        }
+        main();
+    </script>
+</body>
+</html>
